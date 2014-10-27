@@ -6,7 +6,8 @@ app.controller("CorsTesterCtrl", ['$scope', function($scope) {
     var requestParameters = {
         httpTypes: ['GET', 'POST', 'PUT'],
         selectedType: '',
-        url: ''
+        url: '',
+        postData: ''
     };
     var response = {
         data: '',
@@ -19,6 +20,7 @@ app.controller("CorsTesterCtrl", ['$scope', function($scope) {
     //Init defaults:
     requestParameters.selectedType = requestParameters[0];
     requestParameters.url = 'http://localhost:64411/api/message/';
+    requestParameters.postData = JSON.stringify({message:"Hello Server"});
     response.data = '(Response)';
 
     //Bind to view:
@@ -30,13 +32,13 @@ app.controller("CorsTesterCtrl", ['$scope', function($scope) {
         var serviceUrl = requestParameters.url;
         var type = requestParameters.selectedType;
 
-        //Uncomment to send data to server:
-        //var data = {message:"Hej hopp"};
+        //TODO: move to requestParameters.getPostDataJson() that does error-handling.
+        var data = JSON.parse(requestParameters.postData);
 
         $.ajax({
             type: type,
-            url: serviceUrl //,
-            //data: data
+            url: serviceUrl,
+            data: data
         }).done(function (responseData) {
             response.setData(responseData);
         }).error(function (jqXHR, textStatus, errorThrown) {

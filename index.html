@@ -5,9 +5,6 @@
 <!--[if gt IE 8]><!--> <html class="no-js" ng-app="corsTester"> <!--<![endif]-->
 
 <style>
-    .input-controls{
-        margin: 10px;
-    }
     .input-control{
         margin-left: 5px;
         margin-right: 5px;
@@ -38,18 +35,18 @@
     <!--<script src="../js/vendor/angular.min.js"></script>-->
 </head>
 
-<body class="panel-body">
+<body class="panel-body"
+      ng-controller="CorsTesterCtrl">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <pre>
-    CORS, access tester.
+    Specify server's host and send an web-api get/post/put to it. The response is shown below.
+    If post is chosen, optionally, specify data to send as JSON.
 </pre>
 
-<form class="input-controls"
-      ng-controller="CorsTesterCtrl">
-
+<form>
     <label class="input-lg"> Host:
         <input class="input-control-url"
                type="url"
@@ -67,10 +64,18 @@
     <button type="submit"
             class="input-control"
             ng-click="sendRequest()">Send Request</button>
-    <hr>
-    {{response.data}}
-
+    <br>
+    <div ng-show="requestParameters.selectedType === 'POST'">
+        <label class="input-lg"> Post data:
+            <input class="input-control-url"
+                   type="text"
+                   ng-model='requestParameters.postData'/>
+        </label>
+    </div>
 </form>
+
+<hr>
+<p>{{response.data}}</p>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
@@ -78,14 +83,5 @@
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>
 
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-<script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='//www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-XXXXX-X');ga('send','pageview');
-</script>
 </body>
 </html>
